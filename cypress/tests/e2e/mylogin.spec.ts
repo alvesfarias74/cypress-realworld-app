@@ -37,9 +37,8 @@ describe('Tentar registrar um novo usuário com informações incompletas', () =
     cy.get("[name='firstName']").type("Ester");
     cy.get("[name='lastName']").type("Barros");
     cy.get("[name='username']").type("esterfarias16");
-    //cy.get("[name='password']").type("12345678");
-    //cy.get("[name='confirmPassword']").type("12345678");
-    //cy.get(".SignUpForm-submit").click(); 
-    // Ao omitir qualquer dos campos necessários, o botão SIGN UP fica indisponível
+    cy.get("[name='password']").click();
+    cy.get("[name='confirmPassword']").click();
+    cy.get("#password-helper-text");    
   });
 });
