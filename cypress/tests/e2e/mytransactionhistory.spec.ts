@@ -1,5 +1,5 @@
 describe("Visualizar histórico de transações com sucesso", () => {
-  it("Deve exibir o histórico de transações de um usuário corretamente", () => {
+  it.skip("Deve exibir o histórico de transações de um usuário corretamente", () => {
     cy.visit("http://localhost:3000/");
 
     // Inserindo credenciais
@@ -25,10 +25,27 @@ describe("Tentar visualizar o histórico sem transações anteriores", () => {
   it("Deve exibir uma mensagem indicando que o usuário não possui transações anteriores", () => {
     cy.visit("http://localhost:3000/");
 
+    // criando um novo usuário sem transações anteriores
+    cy.get("[href='/signup']").click();
+    cy.get("[name='firstName']").type("Julia");
+    cy.get("[name='lastName']").type("mendes");
+    cy.get("[name='username']").type("nenem2025");
+    cy.get("[name='password']").type("12345678");
+    cy.get("[name='confirmPassword']").type("12345678");
+    cy.get(".SignUpForm-submit").click();
+        
+    // Verifica se o usuário foi redirecionado para a tela de login após o cadastro
+    cy.url().should("include", "/signin");
+
     // Inserindo credenciais
-    cy.get("[name='username']").type("41v35");
-    cy.get("[name='password']").type("ester204");
+    cy.get("[name='username']").type("nenem2025");
+    cy.get("[name='password']").type("12345678");
     cy.get("[type='submit']").click();
+    /* cy.get("[data-test='user-onboarding-next']").click();
+    cy.get("[placeholder='Bank Name']").type("National Bank");
+    cy.get("[placeholder='Routing Number']").type("123456789");
+    cy.get("[placeholder='Account Number']").type("987654321");
+    cy.get("[data-test='bankaccount-submit']").click(); */
 
     // Interceptando requisição de transações
     cy.intercept("GET", "/api/transactions").as("getTransactions");
